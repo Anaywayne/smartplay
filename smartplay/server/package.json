@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@distube/ytdl-core": "^4.16.10",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -23,6 +24,5 @@
     "dev": "nodemon server.js",
     "test": "mocha test/**/*.test.js",
     "test:coverage": "nyc --reporter=html --reporter=text mocha test/**/*.test.js"
-
   }
 }
