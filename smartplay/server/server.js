@@ -2,20 +2,30 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const mongoose = require('mongoose'); // Add this import
+const mongoose = require('mongoose');
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
 const videoRoutes = require('./routes/videoRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 
+// Load environment variables
 dotenv.config();
-connectDB(); // Connect to MongoDB
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://smartplay-frontend-seven.vercel.app',
+    'http://localhost:5173' // Keep this for local development
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true
+}));
 app.use(express.json());
 
 // API Routes
