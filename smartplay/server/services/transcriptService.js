@@ -1,5 +1,5 @@
 const { YoutubeTranscript } = require('youtube-transcript');
-const { getInfo } = require('ytdl-core'); // Use ytdl-core to get video title
+const { getInfo } = require('@distube/ytdl-core'); // Optional: Use the more frequently updated fork
 
 /**
  * Fetches the transcript and basic info for a YouTube video.
@@ -13,12 +13,9 @@ const getTranscriptAndTitle = async (youtubeVideoId) => {
     const transcript = await YoutubeTranscript.fetchTranscript(youtubeVideoId);
     console.log(`Transcript fetched successfully. Length: ${transcript.length}`);
 
-    // Fetch basic video info (including title)
-    console.log(`Fetching video info for video ID: ${youtubeVideoId}`);
-    const info = await getInfo(youtubeVideoId);
-    const title = info.videoDetails.title;
-    console.log(`Video title fetched: ${title}`);
-
+    // Use a placeholder title instead of trying to fetch from YouTube
+    const title = `YouTube Video: ${youtubeVideoId}`;
+    
     // Format transcript slightly if needed (the library format is good)
     const formattedTranscript = transcript.map(item => ({
         text: item.text,
@@ -26,6 +23,11 @@ const getTranscriptAndTitle = async (youtubeVideoId) => {
         duration: item.duration / 1000 // Convert ms to seconds
     }));
 
+    // Make sure transcript exists before returning
+    if (!formattedTranscript || formattedTranscript.length === 0) {
+      console.warn(`No transcript content found for ${youtubeVideoId} even after fetch.`);
+      return null;
+    }
 
     return { transcript: formattedTranscript, title };
 
@@ -38,7 +40,6 @@ const getTranscriptAndTitle = async (youtubeVideoId) => {
     } else if (error.message.includes('Video unavailable')) {
         console.warn(`Video ${youtubeVideoId} is unavailable`);
     }
-    // ytdl-core might throw different errors for info fetching
     
     return null; // Indicate failure
   }
