@@ -1,0 +1,7 @@
+node_modules/
+.env
+/dist
+/build
+
+# Add server/.env specifically if needed, although the root .env covers it
+server/.env
